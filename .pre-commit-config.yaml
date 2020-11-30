@@ -1,0 +1,43 @@
+repos:
+  - repo: local
+    hooks:
+      - id: black
+        name: Black
+        entry: poetry run black
+        language: system
+        types: [python]
+      - id: flake8
+        name: Flake8
+        entry: poetry run flake8
+        language: system
+        types: [python]
+      - id: reorder-python-imports
+        name: Reorder python imports
+        entry: poetry run reorder-python-imports
+        language: system
+        types: [python]
+        args: [--application-directories=src]
+      - id: check-toml
+        name: Check Toml
+        entry: poetry run check-toml
+        language: system
+        types: [toml]
+      - id: check-yaml
+        name: Check Yaml
+        entry: poetry run check-yaml
+        language: system
+        types: [yaml]
+      - id: end-of-file-fixer
+        name: Fix End of Files
+        entry: poetry run end-of-file-fixer
+        language: system
+        types: [text]
+      - id: trailing-whitespace
+        name: Trim Trailing Whitespace
+        entry: poetry run trailing-whitespace-fixer
+        language: system
+        types: [text]
+      - id: check-added-large-files
+        name: Check for added large files
+        entry: poetry run check-added-large-files
+        language: system
