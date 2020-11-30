@@ -33,7 +33,9 @@ def mock_checks_latency(mocker: MockFixture):
 @pytest.fixture(autouse=True, scope="session")
 def mock_envvars():
     """Mock environment variables."""
-    os.environ["CHECK_NETWORK_URLS"] = "https://google.com https://wikipedia.org"
+    os.environ[
+        "CHECK_NETWORK_URLS"
+    ] = "https://google.com https://wikipedia.org"
     os.environ["CHECK_HEALTH_URLS"] = "https://google.com"
     os.environ["CHECK_LATENCY_URLS"] = "https://google.com"
     yield

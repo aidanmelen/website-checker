@@ -3,7 +3,6 @@ VERSION = $(shell poetry version -s)
 
 .PHONY: all
 all:
-	# build all stages: base, workspace, build, release
 	docker build . -t $(IMAGE_NAME)
 
 .PHONY: dev
@@ -23,7 +22,7 @@ build: workspace
 	# build python wheel artifact
 	docker build . -t $(IMAGE_NAME)-build --target build --cache-from $(IMAGE_NAME)-workspace
 
-	# create minimal release image with wheel from build image
+	# create minimal release image with wheel from build stage
 	docker build . -t $(IMAGE_NAME) --target release
 
 	# tag the docker image
@@ -32,6 +31,7 @@ build: workspace
 
 .PHONY: run
 run: workspace
+	# run end-to-end checks
 	docker run --rm --env-file env.example $(IMAGE_NAME) network
 	docker run --rm --env-file env.example $(IMAGE_NAME) health
 	docker run --rm --env-file env.example $(IMAGE_NAME) latency

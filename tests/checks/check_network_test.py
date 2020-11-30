@@ -9,7 +9,7 @@ from website_checker import checks
 # from unittest.mock import call
 
 
-def test_network_check_can_connect():
+def test_network_check_passes_when_connected():
     """Check passes when connection is established."""
     # arrange
     mock_url = "https://google.com"
@@ -24,11 +24,13 @@ def test_network_check_can_connect():
         # assert mock_url in args
         # assert {"timeout": mock_timeout} == kwargs
 
-        mock_requests_head.assert_called_once_with(mock_url, timeout=mock_timeout)
+        mock_requests_head.assert_called_once_with(
+            mock_url, timeout=mock_timeout
+        )
         assert result
 
 
-def test_network_check_cannot_connect():
+def test_network_check_fails_when_not_connected():
     """Check fails when connection is not established."""
     mock_url = "https://google.com"
     mock_timeout = 5
@@ -42,7 +44,9 @@ def test_network_check_cannot_connect():
         #     any_order=False,
         # )
 
-        mock_requests_head.assert_called_once_with(mock_url, timeout=mock_timeout)
+        mock_requests_head.assert_called_once_with(
+            mock_url, timeout=mock_timeout
+        )
         assert not result
 
 

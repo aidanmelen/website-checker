@@ -47,7 +47,7 @@ Commands:
 Some examples
 
 ```bash
-$ check network --url https://google.com --url https://blarg.com
+$ check network -u https://google.com -u https://blarg.com
 {"event": {"check": "network", "input": {"timeout": 5, "url": "https://google.com"}, "output": "pass"}, "logger": "website-checker", "timestamp": "2020-11-30T05:27:23.413281"}
 {"event": {"check": "network", "input": {"timeout": 5, "url": "https://blarg.com"}, "output": "fail"}, "logger": "website-checker", "timestamp": "2020-11-30T05:27:23.443994"}
 
@@ -56,6 +56,10 @@ $ check health --url https://google.com
 
 $ check latency --url https://google.com
 {"event": {"check": "latency", "input": {"threshold": 500, "timeout": 5, "url": "https://google.com"}, "output": "pass"}, "logger": "website-checker", "timestamp": "2020-11-30T05:28:14.460530"}
+
+# force a check failure with a latency threshold of 1ms
+$ check latency -u https://google.com -T 1
+{"event": {"check": "latency", "input": {"threshold": 1, "timeout": 5, "url": "https://google.com"}, "output": "fail"}, "logger": "website-checker", "timestamp": "2020-11-30T15:17:30.897261"}
 ```
 
 ### Docker

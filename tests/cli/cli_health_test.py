@@ -12,7 +12,9 @@ def test_health_subcommand_prints_usage(mock_click):
     assert "--timeout" in result.output
 
 
-def test_health_subcommand_invokes_health_happy_path(mock_click, mock_checks_health, caplog):
+def test_health_subcommand_invokes_health_happy_path(
+    mock_click, mock_checks_health, caplog
+):
     """It invokes health check and logs out pass."""
     # arrange
     mock_url = "https://google.com"
@@ -27,7 +29,9 @@ def test_health_subcommand_invokes_health_happy_path(mock_click, mock_checks_hea
     assert "pass" in caplog.text
 
 
-def test_health_subcommand_invokes_health_sad_path(mock_click, mock_checks_health, caplog):
+def test_health_subcommand_invokes_health_sad_path(
+    mock_click, mock_checks_health, caplog
+):
     """It invokes health check and logs out failure."""
     mock_checks_health.return_value = False
     with caplog.at_level(logging.INFO):
@@ -36,7 +40,9 @@ def test_health_subcommand_invokes_health_sad_path(mock_click, mock_checks_healt
     assert "fail" in caplog.text
 
 
-def test_health_subcommand_raises_on_exception(mock_click, mock_checks_health, caplog):
+def test_health_subcommand_raises_on_exception(
+    mock_click, mock_checks_health, caplog
+):
     """It invokes health check and logs out exception."""
     mock_checks_health.side_effect = Exception("unknown error")
     with caplog.at_level(logging.INFO):

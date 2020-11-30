@@ -12,7 +12,9 @@ def test_network_check_prints_usage(mock_click):
     assert "--timeout" in result.output
 
 
-def test_network_check_invokes_network_happy_path(mock_click, mock_checks_network, caplog):
+def test_network_check_invokes_network_happy_path(
+    mock_click, mock_checks_network, caplog
+):
     """It invokes network check and logs out pass."""
     # arrange
     mock_checks_network.return_value = True
@@ -26,7 +28,9 @@ def test_network_check_invokes_network_happy_path(mock_click, mock_checks_networ
     assert "pass" in caplog.text
 
 
-def test_network_check_invokes_network_sad_path(mock_click, mock_checks_network, caplog):
+def test_network_check_invokes_network_sad_path(
+    mock_click, mock_checks_network, caplog
+):
     """It invokes network check and logs out failure."""
     mock_checks_network.return_value = False
     with caplog.at_level(logging.INFO):
@@ -35,7 +39,9 @@ def test_network_check_invokes_network_sad_path(mock_click, mock_checks_network,
     assert "fail" in caplog.text
 
 
-def test_network_check_raises_on_exception(mock_click, mock_checks_network, caplog):
+def test_network_check_fails_on_exception(
+    mock_click, mock_checks_network, caplog
+):
     """It invokes network check and logs out exception."""
     mock_checks_network.side_effect = Exception("unknown error")
     with caplog.at_level(logging.INFO):

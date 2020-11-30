@@ -25,7 +25,9 @@ def get_logger(name, log_level):
     Returns:
         A logger.
     """
-    logging.basicConfig(level=log_level, stream=sys.stdout, format="%(message)s")
+    logging.basicConfig(
+        level=log_level, stream=sys.stdout, format="%(message)s"
+    )
 
     if log_level == "DEBUG":  # pragma: no cover
         processors = [

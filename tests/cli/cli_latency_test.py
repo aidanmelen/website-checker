@@ -13,7 +13,9 @@ def test_latency_subcommand_prints_usage(mock_click):
     assert "--threshold" in result.output
 
 
-def test_latency_subcommand_invokes_latency_happy_path(mock_click, mock_checks_latency, caplog):
+def test_latency_subcommand_invokes_latency_happy_path(
+    mock_click, mock_checks_latency, caplog
+):
     """It invokes latency check and logs out pass."""
     # arrange
     mock_checks_latency.return_value = True
@@ -27,7 +29,9 @@ def test_latency_subcommand_invokes_latency_happy_path(mock_click, mock_checks_l
     assert "pass" in caplog.text
 
 
-def test_latency_subcommand_invokes_latency_sad_path(mock_click, mock_checks_latency, caplog):
+def test_latency_subcommand_invokes_latency_sad_path(
+    mock_click, mock_checks_latency, caplog
+):
     """It invokes latency check and logs out failure."""
     mock_checks_latency.return_value = False
     with caplog.at_level(logging.INFO):
@@ -36,7 +40,9 @@ def test_latency_subcommand_invokes_latency_sad_path(mock_click, mock_checks_lat
     assert "fail" in caplog.text
 
 
-def test_latency_subcommand_raises_on_exception(mock_click, mock_checks_latency, caplog):
+def test_latency_subcommand_raises_on_exception(
+    mock_click, mock_checks_latency, caplog
+):
     """It invokes latency check and logs out exception."""
     mock_checks_latency.side_effect = Exception("unknown error")
     with caplog.at_level(logging.INFO):

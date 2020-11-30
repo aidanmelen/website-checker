@@ -38,77 +38,31 @@ def main(debug):
     logger = helpers.get_logger("website-checker", log_level)
 
 
+# fmt: off
 @main.command()
-@click.option(
-    "urls",
-    "--url",
-    "-u",
-    multiple=True,
-    default=[None],
-    show_default=True,
-    help="The url to check.",
-)
-@click.option(
-    "--timeout",
-    "-t",
-    type=int,
-    default=5,
-    show_default=True,
-    help="The HTTP request timeout in seconds.",
-)
+@click.option("urls", "--url", "-u", multiple=True, default=[None], show_default=True, help="The url to check.")       # noqa: B950
+@click.option("--timeout", "-t", type=int, default=5, show_default=True, help="The HTTP request timeout in seconds.")  # noqa: B950
 def network(urls, timeout):
     """Check website network connectivity."""
     for url in urls:
         _run_check("network", url=url, timeout=timeout)
 
 
+# fmt: off
 @main.command()
-@click.option(
-    "urls",
-    "--url",
-    "-u",
-    multiple=True,
-    default=[None],
-    show_default=True,
-    help="The url to check.",
-)
-@click.option(
-    "--timeout",
-    "-t",
-    default=5,
-    show_default=True,
-    help="The HTTP request timeout in seconds.",
-)
+@click.option("urls", "--url", "-u", multiple=True, default=[None], show_default=True, help="The url to check.")  # noqa: B950
+@click.option("--timeout", "-t", default=5, show_default=True, help="The HTTP request timeout in seconds.")       # noqa: B950
 def health(urls, timeout):
     """Check website health."""
     for url in urls:
         _run_check("health", url=url, timeout=timeout)
 
 
+# fmt: off
 @main.command()
-@click.option(
-    "urls",
-    "--url",
-    "-u",
-    multiple=True,
-    default=[None],
-    show_default=True,
-    help="The url to check.",
-)
-@click.option(
-    "--timeout",
-    "-t",
-    default=5,
-    show_default=True,
-    help="The HTTP request timeout in seconds.",
-)
-@click.option(
-    "--threshold",
-    "-T",
-    default=500,
-    show_default=True,
-    help="The latency threshold in milliseconds.",
-)
+@click.option("urls", "--url", "-u", multiple=True, default=[None], show_default=True, help="The url to check.")   # noqa: B950
+@click.option("--timeout", "-t", default=5, show_default=True, help="The HTTP request timeout in seconds.")        # noqa: B950
+@click.option("--threshold", "-T", default=500, show_default=True, help="The latency threshold in milliseconds.")  # noqa: B950
 def latency(urls, timeout, threshold):
     """Check website latency."""
     for url in urls:
