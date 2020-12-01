@@ -192,7 +192,7 @@ Required test coverage of 80.0% reached. Total coverage: 100.00%
 ============================== 21 passed in 0.67s ==============================
 ```
 
-#### 4. Build release image
+#### 4. Build local image
 
 ```bash
 $ make build

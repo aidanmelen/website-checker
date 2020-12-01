@@ -15,5 +15,5 @@ jobs:
         architecture: x64
     - run: pip install poetry==1.1.4
     - run: poetry install
-    - run: pre-commit run -a
-    - run: pytest test --cov -vvv
+    - run: poetry run pre-commit run -a
+    - run: poetry run pytest test --cov -vvv
