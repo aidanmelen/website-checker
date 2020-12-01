@@ -1,6 +1,6 @@
-<!-- [![Tests](https://github.com/aidanmelen/website-checker/workflows/Tests/badge.svg)](https://github.com/aidanmelen/website-checker/actions?workflow=Tests) -->
+[![Tests](https://github.com/aidanmelen/website-checker/workflows/Tests/badge.svg)](https://github.com/aidanmelen/website-checker/actions?workflow=Tests)
 <!-- [![Codecov](https://codecov.io/gh/aidanmelen/website-checker/branch/master/graph/badge.svg)](https://codecov.io/gh/aidanmelen/website-checker) -->
-<!-- [![PyPI](https://img.shields.io/pypi/v/website-checker.svg)](https://pypi.org/project/website-checker/) -->
+[![PyPI](https://img.shields.io/pypi/v/website-checker.svg)](https://pypi.org/project/website-checker/)
 <!-- [![Read the Docs](https://readthedocs.org/projects/website-checker/badge/)](https://website-checker.readthedocs.io/) -->
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
