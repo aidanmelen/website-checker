@@ -119,7 +119,7 @@ We can run our checks in the developer workspace
 $ make dev
 ...
 docker run -v "$(pwd)":/app --rm -it website-checker-workspace
-➜  /app git:(main) ✗ pytest tests --cov
+➜  /app git:(main) ✗ pytest --cov
 ============================= test session starts ==============================
 platform linux -- Python 3.8.5, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
 rootdir: /app
@@ -162,7 +162,7 @@ Check Yaml...............................................................Passed
 Fix End of Files.........................................................Passed
 Trim Trailing Whitespace.................................................Passed
 Check for added large files..............................................Passed
-docker run -v "$(pwd)":/app --rm -it website-checker-workspace pytest --cov src
+docker run -v "$(pwd)":/app --rm -it website-checker-workspace pytest --cov
 ============================= test session starts ==============================
 platform linux -- Python 3.8.5, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
 rootdir: /app

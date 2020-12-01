@@ -15,7 +15,7 @@ pre-commit:
 
 .PHONY: test
 pytest:
-	docker run -v "$$(pwd)":/app --rm -it $(IMAGE_NAME)-workspace pytest --cov src $(ARGS)
+	docker run -v "$$(pwd)":/app --rm -it $(IMAGE_NAME)-workspace pytest --cov $(ARGS)
 
 .PHONY: test
 test: pre-commit pytest
