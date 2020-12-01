@@ -99,7 +99,7 @@ docker build . -t website-checker-workspace --target workspace
 
 Yikes! It takes **142.6s** to build the workspace? Don't worry, that is only the first run, now it is cached.
 
-#### 2. Get development shell
+#### 2. Get development workspace
 
 ```bash
 $ make dev
@@ -113,71 +113,26 @@ Nice! Docker cached and reused the layers and the build finished in **1.0s** bef
 
 #### 3. Lint and test changes
 
-We can run our checks in the workspace
+We can run our checks in the developer workspace
 
 ```bash
-➜  /app git:(master) ✗ pytest tests
-====================================================================================== test session starts ======================================================================================
+$ make dev
+...
+docker run -v "$(pwd)":/app --rm -it website-checker-workspace
+➜  /app git:(main) ✗ pytest tests --cov
+============================= test session starts ==============================
 platform linux -- Python 3.8.5, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
 rootdir: /app
 plugins: cov-2.10.1, mock-3.3.1
 collected 21 items
 
-tests/checks/check_health_test.py ..                                                                                                                                                      [  9%]
-tests/checks/check_latency_test.py ..                                                                                                                                                     [ 19%]
-tests/checks/check_network_test.py ...                                                                                                                                                    [ 33%]
-tests/cli/cli_health_test.py ....                                                                                                                                                         [ 52%]
-tests/cli/cli_latency_test.py ....                                                                                                                                                        [ 71%]
-tests/cli/cli_main_test.py ..                                                                                                                                                             [ 80%]
-tests/cli/cli_network_test.py ....                                                                                                                                                        [100%]
-
-====================================================================================== 21 passed in 0.25s =======================================================================================
-```
-
-Or we run tests from our host machine
-
-```bash
-$ make test
-# pre-commit
-docker run -v "$(pwd)":/app --rm -it website-checker-workspace pre-commit run -a
-Black....................................................................Passed
-Flake8...................................................................Passed
-Reorder python imports...................................................Passed
-Check Toml...............................................................Passed
-Check Yaml...............................................................Passed
-Fix End of Files.........................................................Passed
-Trim Trailing Whitespace.................................................Passed
-Check for added large files..............................................Passed
-# test
-docker run -v "$(pwd)":/app --rm -it website-checker-workspace pytest -vvv --cov src -vvv
-=================================================================== test session starts ====================================================================
-platform linux -- Python 3.8.5, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /root/.cache/pypoetry/virtualenvs/website-checker-9TtSrW0h-py3.8/bin/python
-cachedir: .pytest_cache
-rootdir: /app
-plugins: cov-2.10.1, mock-3.3.1
-collected 21 items
-
-tests/checks/check_health_test.py::test_health_check_with_200_response_code PASSED                                                                   [  4%]
-tests/checks/check_health_test.py::test_health_check_with_bad_response_code PASSED                                                                   [  9%]
-tests/checks/check_latency_test.py::test_latency_check_happy_path PASSED                                                                             [ 14%]
-tests/checks/check_latency_test.py::test_latency_check_sad_path PASSED                                                                               [ 19%]
-tests/checks/check_network_test.py::test_network_check_can_connect PASSED                                                                            [ 23%]
-tests/checks/check_network_test.py::test_network_check_cannot_connect PASSED                                                                         [ 28%]
-tests/checks/check_network_test.py::test_network_check_raises_exception_on_sad_path PASSED                                                           [ 33%]
-tests/cli/cli_health_test.py::test_health_subcommand_prints_usage PASSED                                                                             [ 38%]
-tests/cli/cli_health_test.py::test_health_subcommand_invokes_health_happy_path PASSED                                                                [ 42%]
-tests/cli/cli_health_test.py::test_health_subcommand_invokes_health_sad_path PASSED                                                                  [ 47%]
-tests/cli/cli_health_test.py::test_health_subcommand_raises_on_exception PASSED                                                                      [ 52%]
-tests/cli/cli_latency_test.py::test_latency_subcommand_prints_usage PASSED                                                                           [ 57%]
-tests/cli/cli_latency_test.py::test_latency_subcommand_invokes_latency_happy_path PASSED                                                             [ 61%]
-tests/cli/cli_latency_test.py::test_latency_subcommand_invokes_latency_sad_path PASSED                                                               [ 66%]
-tests/cli/cli_latency_test.py::test_latency_subcommand_raises_on_exception PASSED                                                                    [ 71%]
-tests/cli/cli_main_test.py::test_main_command_succeeds PASSED                                                                                        [ 76%]
-tests/cli/cli_main_test.py::test_main_command_prints_usage PASSED                                                                                    [ 80%]
-tests/cli/cli_network_test.py::test_network_check_prints_usage PASSED                                                                                [ 85%]
-tests/cli/cli_network_test.py::test_network_check_invokes_network_happy_path PASSED                                                                  [ 90%]
-tests/cli/cli_network_test.py::test_network_check_invokes_network_sad_path PASSED                                                                    [ 95%]
-tests/cli/cli_network_test.py::test_network_check_raises_on_exception PASSED                                                                         [100%]
+tests/checks/check_health_test.py ..                                     [  9%]
+tests/checks/check_latency_test.py ..                                    [ 19%]
+tests/checks/check_network_test.py ...                                   [ 33%]
+tests/cli/cli_health_test.py ....                                        [ 52%]
+tests/cli/cli_latency_test.py ....                                       [ 71%]
+tests/cli/cli_main_test.py ..                                            [ 80%]
+tests/cli/cli_network_test.py ....                                       [100%]
 
 ----------- coverage: platform linux, python 3.8.5-final-0 -----------
 Name                              Stmts   Miss Branch BrPart  Cover   Missing
@@ -191,7 +146,50 @@ TOTAL                                67      0      6      0   100%
 
 Required test coverage of 80.0% reached. Total coverage: 100.00%
 
-==================================================================== 21 passed in 1.50s ====================================================================
+============================== 21 passed in 0.63s ==============================
+```
+
+Or we run tests from our host machine
+
+```bash
+$ make test
+docker run -v "$(pwd)":/app --rm -it website-checker-workspace pre-commit run -a
+Black....................................................................Passed
+Flake8...................................................................Passed
+Reorder python imports...................................................Passed
+Check Toml...............................................................Passed
+Check Yaml...............................................................Passed
+Fix End of Files.........................................................Passed
+Trim Trailing Whitespace.................................................Passed
+Check for added large files..............................................Passed
+docker run -v "$(pwd)":/app --rm -it website-checker-workspace pytest --cov src
+============================= test session starts ==============================
+platform linux -- Python 3.8.5, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
+rootdir: /app
+plugins: cov-2.10.1, mock-3.3.1
+collected 21 items
+
+tests/checks/check_health_test.py ..                                     [  9%]
+tests/checks/check_latency_test.py ..                                    [ 19%]
+tests/checks/check_network_test.py ...                                   [ 33%]
+tests/cli/cli_health_test.py ....                                        [ 52%]
+tests/cli/cli_latency_test.py ....                                       [ 71%]
+tests/cli/cli_main_test.py ..                                            [ 80%]
+tests/cli/cli_network_test.py ....                                       [100%]
+
+----------- coverage: platform linux, python 3.8.5-final-0 -----------
+Name                              Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------------
+src/website_checker/__init__.py       0      0      0      0   100%
+src/website_checker/checks.py        13      0      0      0   100%
+src/website_checker/cli.py           40      0      6      0   100%
+src/website_checker/helpers.py       14      0      0      0   100%
+-----------------------------------------------------------------------------
+TOTAL                                67      0      6      0   100%
+
+Required test coverage of 80.0% reached. Total coverage: 100.00%
+
+============================== 21 passed in 0.67s ==============================
 ```
 
 #### 4. Build release image
@@ -230,6 +228,21 @@ $ pre-commit run -a
 ...
 ```
 
+#### 6. Release
+
+Both PYPI and Dockerhub releases are handled by the [Release Github Action](./.github/worksflows/release.yml). Ensure you bump the Poetry project version accordingly before releasing your changes. e.g. this is how you would do a minor release:
+
+```bash
+poetry version minor
+...
+```
+
+Then push up your code and tag the branch. The Github Actions will trigger on the creation of a new tag.
+
+# License
+
+Check out the [LICENSE](./LICENSE) for more information.
+
 # Credits
 
-Check out the [CREDITS.md](./docs/CREDITS.md) for more information.
+Check out the [CREDITS](./docs/CREDITS.md) for more information.

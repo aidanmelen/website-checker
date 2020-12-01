@@ -9,15 +9,13 @@ WORKDIR /app
 RUN apt-get update
 RUN apt-get install -y python3-pip git vim curl zsh
 RUN pip3 install poetry${POETRY_VERSION+==$POETRY_VERSION}
-ENV TERM xterm
-ENV ZSH_THEME agnoster
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 # cache the slow installation of python dependencies
 COPY pyproject.toml .
-RUN poetry install --no-interaction --no-ansi --no-root 2>&1 || poetry update
+RUN poetry install --no-interaction --no-ansi --no-root # 2>&1 || poetry update
 # install python project with latest source code
 COPY . .
-RUN poetry install --no-interaction --no-ansi 2>&1 || poetry update
+RUN poetry install --no-interaction --no-ansi # 2>&1 || poetry update
 ENTRYPOINT ["poetry", "run"]
 CMD ["zsh"]
 

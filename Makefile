@@ -9,13 +9,16 @@ all:
 dev: workspace
 	docker run -v "$$(pwd)":/app --rm -it $(IMAGE_NAME)-workspace
 
-.PHONY: test
-test:
-	# pre-commit
+.PHONY: pre-commit
+pre-commit:
 	docker run -v "$$(pwd)":/app --rm -it $(IMAGE_NAME)-workspace pre-commit run -a
 
-	# test
-	docker run -v "$$(pwd)":/app --rm -it $(IMAGE_NAME)-workspace pytest -vvv --cov src -vvv
+.PHONY: test
+pytest:
+	docker run -v "$$(pwd)":/app --rm -it $(IMAGE_NAME)-workspace pytest --cov src $(ARGS)
+
+.PHONY: test
+test: pre-commit pytest
 
 .PHONY: build
 build: workspace
@@ -40,6 +43,12 @@ run: workspace
 workspace:
 	docker build . -t $(IMAGE_NAME)-workspace --target workspace
 
+.PHONY: release
+release:
+	git tag $(VERSION)
+	git push --tags
+
+.PHONY: clean
 clean:
 	@rm -rf build dist .eggs *.egg-info
 	@rm -rf .benchmarks .coverage coverage.xml htmlcov report.xml .tox

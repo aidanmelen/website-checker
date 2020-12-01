@@ -40,8 +40,8 @@ def main(debug):
 
 # fmt: off
 @main.command()
-@click.option("urls", "--url", "-u", multiple=True, default=[None], show_default=True, help="The url to check.")       # noqa: B950
-@click.option("--timeout", "-t", type=int, default=5, show_default=True, help="The HTTP request timeout in seconds.")  # noqa: B950
+@click.option("urls", "--url", "-u", multiple=True, default=[None], show_default=True, help="The url to check.")  # noqa: B950
+@click.option("--timeout", "-t", default=5, show_default=True, help="The HTTP request timeout in seconds.")       # noqa: B950
 def network(urls, timeout):
     """Check website network connectivity."""
     for url in urls:
