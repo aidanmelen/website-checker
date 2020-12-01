@@ -147,8 +147,15 @@ $ pre-commit run -a
 Both PYPI and Dockerhub releases are handled by the [Release Github Action](./.github/worksflows/release.yml). Ensure you bump the Poetry project version accordingly before releasing your changes. e.g. this is how you would do a minor release:
 
 ```bash
-poetry version minor
+$ poetry version minor
 Bumping version from 0.1.1-alpha.2 to 0.2.0
 ```
 
 Then push up your code and tag the branch. The Github Actions will trigger on the creation of a new tag.
+
+```bash
+$ make release
+git tag 0.2.0
+git push --tags
+...
+```
