@@ -1,4 +1,4 @@
-[![Tests](https://github.com/aidanmelen/website_checker/workflows/Tests/badge.svg)](https://github.com/aidanmelen/website-checker/actions?workflow=Tests)
+[![Tests](https://github.com/aidanmelen/website-checker/workflows/Tests/badge.svg)](https://github.com/aidanmelen/website-checker/actions?workflow=Tests)
 [![PyPI](https://img.shields.io/pypi/v/website-checker.svg)](https://pypi.org/project/website-checker/)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
