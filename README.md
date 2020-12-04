@@ -1,5 +1,5 @@
 [![Tests](https://github.com/aidanmelen/website-checker/workflows/Tests/badge.svg)](https://github.com/aidanmelen/website-checker/actions?workflow=Tests)
-[![PyPI](https://img.shields.io/pypi/v/website-checker.svg)](https://pypi.org/project/website-checker/)
+[![PyPI](https://img.shields.io/pypi/v/website_checker.svg)](https://pypi.org/project/website-checker/)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 # website_checker
@@ -11,14 +11,14 @@ A simple python application for running checks against websites.
 ### Install
 
 ```bash
-$ pipx install website-check
+$ pipx install website-checker
   installed package site-check 0.1.0, Python 3.9.0
   These apps are now globally available
     - check
 done! ✨ 🌟 ✨
 
 # or install into system python with pip
-# pip install website-check
+# pip install website-checker
 ```
 
 ### Example
@@ -29,7 +29,7 @@ Display help message
 $ check --help
 Usage: check [OPTIONS] COMMAND [ARGS]...
 
-  The main entrypoint.
+  A simple python application for running checks against websites.
 
 Options:
   --debug / --no-debug  Toggle debug mode.
@@ -49,14 +49,14 @@ $ check network -u https://google.com -u https://blarg.com
 {"event": {"check": "network", "input": {"timeout": 5, "url": "https://google.com"}, "output": "pass"}, "logger": "website-checker", "timestamp": "2020-11-30T05:27:23.413281"}
 {"event": {"check": "network", "input": {"timeout": 5, "url": "https://blarg.com"}, "output": "fail"}, "logger": "website-checker", "timestamp": "2020-11-30T05:27:23.443994"}
 
-$ check health --url https://google.com
+$ check health -u https://google.com
 {"event": {"check": "health", "input": {"timeout": 5, "url": "https://google.com"}, "output": "pass"}, "logger": "website-checker", "timestamp": "2020-11-30T05:27:49.413241"}
 
-$ check latency --url https://google.com
+$ check latency -u https://google.com
 {"event": {"check": "latency", "input": {"threshold": 500, "timeout": 5, "url": "https://google.com"}, "output": "pass"}, "logger": "website-checker", "timestamp": "2020-11-30T05:28:14.460530"}
 
 # force a check failure with a latency threshold of 1ms
-$ check latency -u https://google.com -T 1
+$ check latency --url https://google.com --threshold 1
 {"event": {"check": "latency", "input": {"threshold": 1, "timeout": 5, "url": "https://google.com"}, "output": "fail"}, "logger": "website-checker", "timestamp": "2020-11-30T15:17:30.897261"}
 ```
 

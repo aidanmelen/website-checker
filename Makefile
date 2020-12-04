@@ -31,6 +31,7 @@ build: workspace
 	# tag the docker image
 	docker tag $(IMAGE_NAME):latest $(IMAGE_NAME):$(VERSION)
 	docker tag $(IMAGE_NAME):latest $(IMAGE_NAME):latest
+	# [[ "$(VERSION)" == *"-"* ]] && docker tag $(IMAGE_NAME):latest $(IMAGE_NAME):stable
 
 .PHONY: run
 run: workspace

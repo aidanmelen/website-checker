@@ -39,7 +39,17 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: aidanmelen/website_checker:${{ steps.get_tag.outputs.TAG }}
+          tags: aidanmelen/website-checker:${{ steps.get_tag.outputs.TAG }}
+
+      - name: Build and push stable
+        if: ${{ !contains( steps.get_tag.outputs.TAG, 'alpha') || !contains( steps.get_tag.outputs.TAG, 'beta') }}
+        id: docker_build_with_stable
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: aidanmelen/website-checker:stable
 
       - name: Build and push latest
         id: docker_build_with_latest
@@ -48,10 +58,13 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: aidanmelen/website_checker:latest
+          tags: aidanmelen/website-checker:latest
 
       - name: Image with tag digest
         run: echo ${{ steps.docker_build_with_tag.outputs.digest }}
 
-      - name: Image with latest digest
+      - name: Image with stable tag digest
+        run: echo ${{ steps.docker_build_with_tag.outputs.digest }}
+
+      - name: Image with latest tag digest
         run: echo ${{ steps.docker_build_with_latest.outputs.digest }}

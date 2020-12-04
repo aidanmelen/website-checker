@@ -5,27 +5,27 @@ ARG POETRY_VERSION=1.1.4
 
 FROM ubuntu:${UBUNTU_VERSION} AS workspace
 WORKDIR /app
+
 # install workspace tools
 RUN apt-get update
 RUN apt-get install -y python3-pip git vim curl zsh
 RUN pip3 install poetry${POETRY_VERSION+==$POETRY_VERSION}
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
 # cache the slow installation of python dependencies
-COPY pyproject.toml .
-RUN poetry install --no-interaction --no-ansi --no-root # 2>&1 || poetry update
+COPY pyproject.toml *poetry.lock .
+RUN poetry install --no-interaction --no-ansi --no-root
+
 # install python project with latest source code
 COPY . .
-RUN poetry install --no-interaction --no-ansi # 2>&1 || poetry update
+RUN poetry install --no-interaction --no-ansi
+
 ENTRYPOINT ["poetry", "run"]
 CMD ["zsh"]
 
 
-FROM ubuntu:${UBUNTU_VERSION} AS build
-WORKDIR /app
-COPY --from=workspace / /
+FROM workspace AS build
 RUN poetry build --format wheel
-ENTRYPOINT ["poetry", "run"]
-CMD ["zsh"]
 
 
 FROM python:${PYTHON_VERSION}-alpine AS release

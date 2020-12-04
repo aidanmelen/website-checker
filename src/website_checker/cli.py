@@ -32,7 +32,7 @@ def _run_check(name, **kwargs):
 @click.option("--debug/--no-debug", help="Toggle debug mode.")
 @click.version_option()
 def main(debug):
-    """The main entrypoint."""
+    """A simple python application for running checks against websites."""
     global logger
     log_level = "DEBUG" if debug else "INFO"
     logger = helpers.get_logger("website-checker", log_level)
