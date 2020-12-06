@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "website-checker"
-version = "0.3.2"
+version = "0.3.3-alpha.0"
 authors = ["Aidan Melen <aidanmelen@protonmail.com>"]
 license = "MIT"
 description = "A simple python application for running checks against websites."
@@ -29,6 +29,7 @@ pytest = "^6.1.2"
 pytest-cov = "^2.8.1"
 pytest-mock = "^3.3.1"
 reorder-python-imports = "^2.3.6"
+safety = "^1.9.0"
 
 [tool.poetry.scripts]
 check = "website_checker.cli:cli"

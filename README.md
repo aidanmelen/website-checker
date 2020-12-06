@@ -26,7 +26,7 @@ done! ✨ 🌟 ✨
 
 Display help message
 
-```bash
+```text
 $ check --help
 Usage: check [OPTIONS] COMMAND [ARGS]...
 
@@ -55,31 +55,12 @@ $ check health -u https://google.com
 
 $ check latency -u https://google.com
 {"event": {"check": "latency", "input": {"threshold": 500, "timeout": 5, "url": "https://google.com"}, "output": "pass"}, "logger": "website-checker", "timestamp": "2020-11-30T05:28:14.460530"}
-
-# force a check failure with a latency threshold of 1ms
-$ check latency --url https://google.com --threshold 1
-{"event": {"check": "latency", "input": {"threshold": 1, "timeout": 5, "url": "https://google.com"}, "output": "fail"}, "logger": "website-checker", "timestamp": "2020-11-30T15:17:30.897261"}
 ```
 
 ### Docker
 
-The default Makefile target will run **all** stages in the Dockerfile.
-
 ```bash
-$ make
-# build all stages: base, workspace, build, release
-docker build . -t website-checker
-[+] Building 0.9s (22/22) FINISHED
-...
-
-# verify image and look at the size!
-$ docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-website-checker     latest              4ea3d7e18eec        18 seconds ago      55.6MB
-
-# run website check with container
-$ docker run --rm -it website-checker \
-health --url https://google.com
+$ docker run --rm -it aidanmelen/website-checker health --url https://google.com
 {"event": {"check": "health", "input": {"timeout": 5, "url": "https://google.com"}, "output": "pass"}, "logger": "website-checker", "timestamp": "2020-11-30T05:00:23.444290"}
 ```
 
