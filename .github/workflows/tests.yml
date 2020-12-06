@@ -16,4 +16,6 @@ jobs:
     - run: pip install poetry==1.1.4
     - run: poetry install
     - run: poetry run pre-commit run -a
+    - run: poetry export --format requirements.txt --output r.txt
+    - run: poetry run safety check --full-report --file r.txt
     - run: poetry run pytest --cov -vvv

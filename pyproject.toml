@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "website-checker"
-version = "0.3.3-alpha.0"
+version = "0.3.3"
 authors = ["Aidan Melen <aidanmelen@protonmail.com>"]
 license = "MIT"
 description = "A simple python application for running checks against websites."
