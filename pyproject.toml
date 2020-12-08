@@ -5,7 +5,7 @@ authors = ["Aidan Melen <aidanmelen@protonmail.com>"]
 license = "MIT"
 description = "A simple python application for running checks against websites."
 readme = "README.md"
-homepage = "https://github.com/aidanmelen/website-checker"
+homepage = "https://aidanmelen.github.io/website-checker"
 repository = "https://github.com/aidanmelen/website-checker"
 keywords = ["website", "checker"]
 
