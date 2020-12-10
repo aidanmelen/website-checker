@@ -5,7 +5,7 @@ on:
       - '*.*.*'
 jobs:
   poetry_publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
     - name: Build and publish to pypi
@@ -16,7 +16,7 @@ jobs:
         pypi_token: ${{ secrets.PYPI_TOKEN }}
 
   docker_push:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - uses: docker/login-action@v1
