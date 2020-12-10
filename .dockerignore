@@ -34,7 +34,6 @@ MANIFEST.in
 /tests/fixtures/project_with_extras/setup.py
 .mypy_cache
 
-.venv
 /releases/*
 pip-wheel-metadata
 /poetry.toml

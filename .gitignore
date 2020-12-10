@@ -35,6 +35,7 @@ MANIFEST.in
 .mypy_cache
 
 .venv
+requirements.txt
 /releases/*
 pip-wheel-metadata
 /poetry.toml

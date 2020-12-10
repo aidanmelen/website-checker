@@ -5,27 +5,29 @@ all ::
 	# Build release image.
 	docker build . -t $(NAME)
 
-build-all ::
-	# Build all stages as images.
-	for STAGE in base dev pre-commit safety pytest build release ; \
+build-stages ::
+	# Build image for each docker stage.
+	for STAGE in base dev build release ; \
 		do docker build . -t $(NAME)-$$STAGE --target $$STAGE; \
 	done
 
-workspace ::
+dev ::
 	# Run the development workspace.
 	docker run -v "$$(pwd)":/app --rm -it $(NAME)-dev
 
 pre-commit ::
 	# Run pre-commit checks .i.e black and flake8.
-	docker run -v "$$(pwd)":/app --rm -it $(NAME)-pre-commit
+	docker run -v "$$(pwd)":/app --rm -it --entrypoint poetry $(NAME)-dev run pre-commit run --all-files || true
+	git add --all
 
 safety ::
 	# Check Python dependencies for known security vulnerabilities.
-	docker run -v "$$(pwd)":/app --rm -it $(NAME)-safety
+	docker run -v "$$(pwd)":/app --rm -it --entrypoint poetry $(NAME)-dev export --format requirements.txt --output requirements.txt
+	docker run -v "$$(pwd)":/app --rm -it --entrypoint poetry $(NAME)-dev run safety check --full-report --file requirements.txt
 
 pytest ::
 	# Run the Python test suite.
-	docker run -v "$$(pwd)":/app --rm -it $(NAME)-pytest
+	docker run -v "$$(pwd)":/app --rm -it --entrypoint poetry $(NAME)-dev run pytest --cov -vvv
 
 test :: pre-commit safety pytest
 	# Run all test checks.
@@ -38,9 +40,8 @@ poetry-build ::
 docker-build ::
 	# Build Docker release image and tag.
 	docker build . -t $(NAME) --target release
-	docker tag $(NAME):latest $(NAME):$(VERSION)
 	docker tag $(NAME):latest $(NAME):latest
-	[[ ("$(VERSION)" =~ .*alpha*) || ("$(VERSION)" =~ .*beta*) ]] || docker tag $(NAME):latest $(NAME):stable
+	docker tag $(NAME):latest $(NAME):$(VERSION)
 
 build :: poetry-build docker-build
 	# Build both Python wheel and Docker release image
@@ -58,7 +59,7 @@ release :: all
 
 clean ::
 	# Remove Python cache files.
-	@rm -rf build dist .eggs *.egg-info
+	@rm -rf build dist .eggs *.egg-info .venv requirements.txt
 	@rm -rf .benchmarks .coverage coverage.xml htmlcov report.xml .tox
 	@find . -type d -name '.mypy_cache' -exec rm -rf {} +
 	@find . -type d -name '__pycache__' -exec rm -rf {} +
