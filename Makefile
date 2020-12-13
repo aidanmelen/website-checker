@@ -5,23 +5,19 @@ all ::
 	# Build release image.
 	docker build . -t $(NAME)
 
-build-stages ::
-	# Build image for each docker stage.
-	for STAGE in base dev build release ; \
-		do docker build . -t $(NAME)-$$STAGE --target $$STAGE; \
-	done
-
 dev ::
-	# Run the development workspace.
+	# Build the dev stage.
+	docker build . -t $(NAME)-dev --target dev;
+
+	# Run the developer workspace.
 	docker run -v "$$(pwd)":/app --rm -it $(NAME)-dev
 
 pre-commit ::
 	# Run pre-commit checks .i.e black and flake8.
-	docker run -v "$$(pwd)":/app --rm -it --entrypoint poetry $(NAME)-dev run pre-commit run --all-files || true
-	git add --all
+	docker run -v "$$(pwd)":/app --rm -it --entrypoint poetry $(NAME)-dev run pre-commit run --all-files || git add --all
 
 safety ::
-	# Check Python dependencies for known security vulnerabilities.
+	# Run security vulnerabilities checks for Python dependencies.
 	docker run -v "$$(pwd)":/app --rm -it --entrypoint poetry $(NAME)-dev export --format requirements.txt --output requirements.txt
 	docker run -v "$$(pwd)":/app --rm -it --entrypoint poetry $(NAME)-dev run safety check --full-report --file requirements.txt
 
@@ -32,19 +28,10 @@ pytest ::
 test :: pre-commit safety pytest
 	# Run all test checks.
 
-poetry-build ::
-	# Build Python wheel distrubtion
-	docker build . -t $(NAME)-build --target build
-	docker run -v "$$(pwd)":/app --rm -it $(NAME)-build
-
-docker-build ::
+build :: all
 	# Build Docker release image and tag.
-	docker build . -t $(NAME) --target release
 	docker tag $(NAME):latest $(NAME):latest
 	docker tag $(NAME):latest $(NAME):$(VERSION)
-
-build :: poetry-build docker-build
-	# Build both Python wheel and Docker release image
 
 run :: all
 	# Run end-to-end checks.
